@@ -49,6 +49,13 @@ body{background:var(--ink);color:var(--silver);font-family:var(--body);overflow-
 #cur-r{width:30px;height:30px;border:1px solid rgba(79,195,247,.4);transition:transform .12s ease-out}
 body a,body button,[data-click]{cursor:none}
 
+/* Touch devices: kill the custom cursor entirely, restore native tap behavior */
+@media (hover:none),(pointer:coarse){
+  body{cursor:auto}
+  body a,body button,[data-click]{cursor:pointer}
+  #cur,#cur-r{display:none}
+}
+
 /* ──────────────────────────────────────────────────────
    START SCREEN
 ────────────────────────────────────────────────────── */
@@ -335,6 +342,7 @@ nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
   padding:1rem 5vw;
   display:flex;align-items:center;justify-content:space-between;
+  gap:1rem;
   background:rgba(8,9,12,.85);backdrop-filter:blur(24px);
   border-bottom:1px solid var(--border);
 }
@@ -569,6 +577,7 @@ section{padding:5.5rem 5vw;position:relative}
 
 .mon-top{
   display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;row-gap:.5rem;
   padding:.55rem 1rem;
   background:rgba(4,6,10,.95);
   border-bottom:1px solid var(--border);
@@ -791,7 +800,7 @@ section{padding:5.5rem 5vw;position:relative}
   cursor:none;
 }
 .envelope{
-  width:340px;height:220px;
+  width:min(340px,88vw);height:min(220px,57vw);
   position:relative;
   transform-style:preserve-3d;
   transition:transform .4s ease;
@@ -919,15 +928,91 @@ footer{
 .rv{opacity:0;transform:translateY(25px);transition:opacity .75s cubic-bezier(.16,1,.3,1),transform .75s cubic-bezier(.16,1,.3,1)}
 .rv.vis{opacity:1;transform:translateY(0)}
 
+/* ──────────────────────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────────────────────── */
+
+/* ── TABLET / SMALL LAPTOP */
+@media(max-width:1024px){
+  nav{padding:.9rem 4vw}
+  .nav-links{gap:1.2rem}
+  section{padding:4.5rem 4vw}
+  #hero{padding:6.5rem 4vw 3rem}
+  .about-grid{gap:2rem}
+  .info-panel{width:170px}
+  #canvas-wrap{height:60vh;min-height:420px}
+}
+
 /* ── MOBILE */
 @media(max-width:760px){
-  #hero{grid-template-columns:1fr;gap:2.5rem;padding-top:5.5rem}
-  .hero-r{order:-1}
-  .photo-frame{width:180px}
-  .about-grid,.contact-grid{grid-template-columns:1fr}
+  nav{padding:.85rem 5vw}
+  .nav-logo{font-size:1.25rem}
   .nav-links{display:none}
+  #hero{grid-template-columns:1fr;gap:2rem;padding:6rem 6vw 3rem;min-height:auto}
+  .hero-r{order:-1}
+  .hero-name{font-size:clamp(2.6rem,12vw,4rem)}
+  .hero-desc{max-width:100%}
+  .hero-ctas{width:100%}
+  .hero-ctas a{flex:1;justify-content:center;text-align:center}
+  .photo-frame{width:min(220px,55vw)}
+
+  section{padding:3.5rem 6vw}
+  .s-title{font-size:clamp(1.7rem,8vw,2.4rem)}
+
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:2rem}
+  .vsc-body{padding:1rem;font-size:.7rem;overflow-x:auto}
+  .about-stats{grid-template-columns:1fr 1fr;gap:.6rem}
+
+  #portal{padding:3rem 5vw}
+  #canvas-wrap{height:52vh;min-height:340px}
+  .c-hint{font-size:.5rem;bottom:.8rem;text-align:center;padding:0 1rem}
+
+  .mon-top{padding:.5rem .7rem;gap:.4rem}
+  .mon-logo{font-size:.8rem}
+  .mode-btns{gap:.25rem}
+  .mode-btn{padding:.24rem .55rem;font-size:.52rem}
+  .dev-btns{width:100%;order:3;justify-content:center}
+  .dev-btn{padding:.24rem .5rem;font-size:.5rem;flex:1;text-align:center}
+  .mon-close{padding:.24rem .5rem;font-size:.52rem}
+
   .info-panel{display:none}
+  #device-3d-wrap{width:100%}
+
+  .term-bar{font-size:.5rem;padding:.45rem .8rem;flex-wrap:wrap;row-gap:.3rem}
+  #term-output{padding:.8rem;font-size:.65rem}
+  #term-output .term-out{white-space:pre;overflow-x:auto;display:block}
+  .term-input-row{padding:.5rem .8rem}
+  #term-input{font-size:.7rem}
+
+  .proj-grid{grid-template-columns:1fr;gap:1rem}
+  .skills-grid{grid-template-columns:1fr;gap:1rem}
+  .certs-grid{grid-template-columns:1fr;gap:1rem}
+
+  .modal{max-height:88vh}
+  .modal-h{height:130px;font-size:2.6rem}
+  .modal-b{padding:1.3rem}
+  .modal-title{font-size:1.35rem}
   .modal-btns{flex-direction:column}
+  .modal-btns a{text-align:center;justify-content:center}
+
+  .contact-inner{margin-top:1.5rem}
+  .contact-form{padding:1.3rem}
+
+  footer{padding:1.5rem 6vw;flex-direction:column;text-align:center}
+}
+
+/* ── SMALL MOBILE */
+@media(max-width:420px){
+  .nav-logo{font-size:1.05rem}
+  .nav-status{display:none}
+  .hero-badge{font-size:.5rem}
+  .hero-title{font-size:.62rem}
+  .stat-c{padding:.75rem}
+  .stat-n{font-size:1.7rem}
+  #canvas-wrap{min-height:300px}
+  .dev-btn span{display:none}
+  .dev-btn{padding:.3rem .5rem}
+  .mode-btn{font-size:.48rem;padding:.22rem .45rem}
 }
 /* noise */
 #noise{position:fixed;inset:0;pointer-events:none;z-index:9800;opacity:.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:140px}
@@ -1043,7 +1128,7 @@ footer{
       <div class="about-stats">
         <div class="stat-c"><div class="stat-n">15+</div><div class="stat-l">Projects</div></div>
         <div class="stat-c"><div class="stat-n">2+</div><div class="stat-l">Years Exp.</div></div>
-        <div class="stat-c"><div class="stat-n">5+</div><div class="stat-l">Clients</div></div>
+        <div class="stat-c"><div class="stat-n">10+</div><div class="stat-l">Clients</div></div>
         <div class="stat-c"><div class="stat-n">3+</div><div class="stat-l">Certs</div></div>
       </div>
     </div>
@@ -1099,9 +1184,9 @@ footer{
           <button class="mode-btn" id="mode-terminal">🧠 TERMINAL</button>
         </div>
         <div class="dev-btns" id="dev-btns">
-          <button class="dev-btn act" data-dev="phone">📱 Phone</button>
-          <button class="dev-btn" data-dev="tablet">📱 Tablet</button>
-          <button class="dev-btn" data-dev="laptop">💻 Laptop</button>
+          <button class="dev-btn act" data-dev="phone">📱 <span>Phone</span></button>
+          <button class="dev-btn" data-dev="tablet">📱 <span>Tablet</span></button>
+          <button class="dev-btn" data-dev="laptop">💻 <span>Laptop</span></button>
         </div>
         <button class="mon-close" id="mon-close">✕ EXIT</button>
       </div>
@@ -1230,15 +1315,7 @@ footer{
       <div class="modal-sh4">Tech Stack</div>
       <div class="stack-grid" id="modal-stack"></div>
       <div class="modal-btns">
-        <a
-    class="btn-p"
-    id="modal-live"
-    href="#"
-    target="_blank"
-    rel="noopener noreferrer"
->
-    LIVE DEMO →
-</a>
+        <a class="btn-p" id="modal-live" href="#" target="_blank">LIVE DEMO →</a>
         <a class="btn-o" id="modal-code" href="#" target="_blank">VIEW CODE</a>
       </div>
     </div>
@@ -1251,10 +1328,10 @@ footer{
 ═══════════════════════════════════════════════════ */
 const PROJECTS=[
   {icon:'🎓',tags:['Laravel 12','MySQL','REST API'],title:'PKL Management System',excerpt:'Web-based internship management system for my school, with role-based access for admins, teachers, staff, and students.',desc:'A web-based internship (PKL) management system developed for my school to simplify and manage the internship process. The system includes multiple user roles — Administrator, Teacher, Staff, and Student — each with different permissions and features. Students can submit internship applications, manage attendance, upload daily journals, and monitor their application status. Teachers can monitor students and manage approvals, while administrators can manage users, classes, departments, internship data, and other system information. The project also includes authentication, role-based access control, REST API integration, PDF and Excel export, and database management.',stack:['Laravel 12','PHP','MySQL','JavaScript','Tailwind CSS','REST API','Vite','Postman'],live:'#',code:'#'},
-  {icon:'🗓️',tags:['PHP','MySQL','JavaScript'],title:'Student Attendance System',excerpt:'Web-based system to record and manage student attendance digitally.',desc:'A web-based student attendance system created to help manage and monitor student attendance digitally. The application allows attendance data to be recorded and managed more efficiently compared to manual processes. The project focuses on CRUD operations, database integration, user authentication, and data management using PHP and MySQL.',stack:['PHP','MySQL','HTML','CSS','JavaScript'],live:'https://presensi.kadansa-kreatif.id/index.php',code:'#'},
+  {icon:'🗓️',tags:['PHP','MySQL','JavaScript'],title:'Student Attendance System',excerpt:'Web-based system to record and manage student attendance digitally.',desc:'A web-based student attendance system created to help manage and monitor student attendance digitally. The application allows attendance data to be recorded and managed more efficiently compared to manual processes. The project focuses on CRUD operations, database integration, user authentication, and data management using PHP and MySQL.',stack:['PHP','MySQL','HTML','CSS','JavaScript'],live:'#',code:'#'},
   {icon:'💰',tags:['Vue.js','Laravel','MySQL'],title:'Money Tracker',excerpt:'Personal finance app to record and organize income and expenses.',desc:'A personal finance management application designed to help users record and organize their income and expenses. The application focuses on creating a simple and practical way to monitor financial activity. The project includes frontend and backend integration, data management, and database operations.',stack:['Vue.js','Laravel','PHP','MySQL','JavaScript'],live:'#',code:'#'},
   {icon:'✈️',tags:['React','Laravel','MySQL'],title:'Travel Website',excerpt:'Interactive web app for exploring travel destinations.',desc:'A modern web application designed to provide information and an interactive experience related to travel destinations. The project focuses on creating a responsive user interface while integrating frontend and backend functionality.',stack:['React','Laravel','PHP','MySQL','JavaScript'],live:'#',code:'#'},
-  {icon:'🎂',tags:['HTML','CSS','JavaScript'],title:'Birthday Website',excerpt:'Personalized interactive birthday website built for a friend.',desc:'A personalized interactive birthday website created as a special project for a friend. The website was built with a focus on visual design, animations, responsiveness, and creating a more personal user experience.',stack:['HTML','CSS','JavaScript'],live:'https://lin270.github.io/ical/',code:'#'}
+  {icon:'🎂',tags:['HTML','CSS','JavaScript'],title:'Birthday Website',excerpt:'Personalized interactive birthday website built for a friend.',desc:'A personalized interactive birthday website created as a special project for a friend. The website was built with a focus on visual design, animations, responsiveness, and creating a more personal user experience.',stack:['HTML','CSS','JavaScript'],live:'#',code:'#'}
 ];
 
 const SKILLS=[
@@ -2268,18 +2345,12 @@ document.getElementById('send-btn').onclick=()=>{
 /* ═══════════════════════════════════════════════════
    SMOOTH SCROLL
 ═══════════════════════════════════════════════════ */
-document.querySelectorAll('a[href^="#"]:not(#modal-live):not(#modal-code)').forEach(a => {
-    a.addEventListener('click', e => {
-        e.preventDefault();
-
-        const t = document.querySelector(a.getAttribute('href'));
-
-        if (t) {
-            t.scrollIntoView({
-                behavior: 'smooth'
-            });
-        }
-    });
+document.querySelectorAll('a[href^="#"]').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const t=document.querySelector(a.getAttribute('href'));
+    if(t)t.scrollIntoView({behavior:'smooth'});
+  });
 });
 </script>
 </body>
